@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page - REPPIN' KR</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <style>
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .admin-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .admin-tab {
+            padding: 1rem 2rem;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .admin-tab.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+        .admin-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .admin-section {
+            display: none;
+        }
+        .admin-section.active {
+            display: block;
+        }
+        .application-card, .gallery-card-admin, .post-card-admin, .user-card {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #667eea;
+        }
+        .application-actions, .gallery-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .admin-select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin-top: 0.5rem;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-box h3 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .back-btn {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <a href="index.html" class="btn btn-secondary back-btn">← Back to Main</a>
+            <h1>Admin Page</h1>
+            <p>Approve gallery applications, assign administrators, and manage posts.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-box">
+                <h3 id="statApplications">0</h3>
+                <p>Pending Applications</p>
+            </div>
+            <div class="stat-box">
+                <h3 id="statGalleries">0</h3>
+                <p>Approved Galleries</p>
+            </div>
+            <div class="stat-box">
+                <h3 id="statPosts">0</h3>
+                <p>Total Posts</p>
+            </div>
+            <div class="stat-box">
+                <h3 id="statUsers">0</h3>
+                <p>Total Users</p>
+            </div>
+        </div>
+
+        <div class="admin-tabs">
+            <div class="admin-tab active" data-tab="applications">Gallery Applications</div>
+            <div class="admin-tab" data-tab="galleries">Gallery Management</div>
+            <div class="admin-tab" data-tab="posts">Post Management</div>
+            <div class="admin-tab" data-tab="users">User Management</div>
+        </div>
+
+        <div class="admin-content">
+            <!-- Gallery Applications -->
+            <div id="applicationsSection" class="admin-section active">
+                <h2>Gallery Application List</h2>
+                <div id="applicationsList"></div>
+            </div>
+
+            <!-- Gallery Management -->
+            <div id="galleriesSection" class="admin-section">
+                <h2>Gallery List</h2>
+                <div id="galleriesList"></div>
+            </div>
+
+            <!-- Post Management -->
+            <div id="postsSection" class="admin-section">
+                <h2>Post List</h2>
+                <div id="postsList"></div>
+            </div>
+
+            <!-- User Management -->
+            <div id="usersSection" class="admin-section">
+                <h2>User List</h2>
+                <div id="usersList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Assign Admin Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Assign Gallery Administrators</h2>
+            <p>Each gallery can have up to 2 administrators.</p>
+            <form id="adminForm">
+                <input type="hidden" id="adminGalleryId">
+                <div class="form-group">
+                    <label>Administrator 1</label>
+                    <select id="admin1" class="admin-select">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Administrator 2</label>
+                    <select id="admin2" class="admin-select">
+                        <option value="">Select</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
+
